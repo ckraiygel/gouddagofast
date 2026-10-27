@@ -1,0 +1,12 @@
+# Godot 4+ specific ignores
+.godot/
+*.translation
+
+# Mono/C# specific (if applicable)
+.mono/
+data_*/
+mono_crash.*.json
+
+# System/OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,171 @@
+[gd_scene format=3 uid="uid://b4757i35fep50"]
+
+[ext_resource type="Script" uid="uid://cp6u0ffce7m0x" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://dx37mj8cdu5jg" path="res://player.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://bg4ufmurjcagc" path="res://cat_paw.gd" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://bln3qplcd6qhl" path="res://camera_3d.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://3ii78qtql270" path="res://cheese.gd" id="4_1bvp3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_alpue"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_alpue"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_alpue"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pguvb"]
+albedo_color = Color(1, 0.007843138, 1, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7s4dv"]
+
+[sub_resource type="Sky" id="Sky_pguvb"]
+sky_material = SubResource("ProceduralSkyMaterial_7s4dv")
+
+[sub_resource type="Environment" id="Environment_alpue"]
+background_mode = 2
+sky = SubResource("Sky_pguvb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7s4dv"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 0.5058824)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_alpue"]
+height = 0.01
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pguvb"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_alpue"]
+height = 1.5
+radius = 0.7
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pguvb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eapok"]
+albedo_color = Color(0.91764706, 0.7529412, 0.17254902, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_pguvb"]
+
+[node name="Main" type="Node3D" unique_id=1391177809]
+script = ExtResource("1_h2yge")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=859694889]
+transform = Transform3D(0.70710677, -0.4055798, 0.579228, 0, 0.81915206, 0.57357645, -0.70710677, -0.4055798, 0.579228, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=705163462]
+transform = Transform3D(1, 0, 0, 0, 0.64278764, 0.76604444, 0, -0.76604444, 0.64278764, 0, 10, 7)
+fov = 55.0
+script = ExtResource("2_lquwl")
+
+[node name="TableFloor" type="CSGBox3D" parent="." unique_id=1775414088]
+use_collision = true
+size = Vector3(12, 0.2, 12)
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=176429213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_ig7tw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=1548474583]
+shape = SubResource("SphereShape3D_alpue")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=1544609331]
+mesh = SubResource("SphereMesh_alpue")
+
+[node name="Nose" type="MeshInstance3D" parent="Player" unique_id=647171253]
+transform = Transform3D(0.2, 0, 0, 0, -8.742278e-09, 0.3, 0, -0.2, -1.3113417e-08, 0, 0.1, -0.5)
+mesh = SubResource("PrismMesh_alpue")
+surface_material_override/0 = SubResource("StandardMaterial3D_pguvb")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1283432184]
+environment = SubResource("Environment_alpue")
+
+[node name="CatPaw" type="Node3D" parent="." unique_id=852141911]
+script = ExtResource("2_0xm2m")
+
+[node name="WarningShadow" type="MeshInstance3D" parent="CatPaw" unique_id=307193493]
+transform = Transform3D(2, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 0.1, 0)
+material_override = SubResource("StandardMaterial3D_7s4dv")
+mesh = SubResource("CylinderMesh_alpue")
+
+[node name="PawMesh" type="MeshInstance3D" parent="CatPaw" unique_id=440233187]
+transform = Transform3D(1.8, 0, 0, 0, 4, 0, 0, 0, 1.8, 0, 10, 0)
+mesh = SubResource("CylinderMesh_pguvb")
+
+[node name="HitArea" type="Area3D" parent="CatPaw/PawMesh" unique_id=581155912]
+transform = Transform3D(0.5555556, 0, 0, 0, 0.25, 0, 0, 0, 0.5555556, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CatPaw/PawMesh/HitArea" unique_id=1300242817]
+shape = SubResource("CylinderShape3D_alpue")
+
+[node name="Cheese" type="Area3D" parent="." unique_id=860129510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.6590887)
+script = ExtResource("4_1bvp3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cheese" unique_id=1013847065]
+shape = SubResource("SphereShape3D_pguvb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cheese" unique_id=1677165975]
+material_override = SubResource("StandardMaterial3D_eapok")
+mesh = SubResource("PrismMesh_pguvb")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1913998248]
+
+[node name="ScoreLabel" type="Label" parent="UI" unique_id=1680981454]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -38.0
+offset_right = 38.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "CHEESE: 0"
+
+[node name="GameOverScreen" type="Control" parent="UI" unique_id=1934937617]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/GameOverScreen" unique_id=1002185948]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 0.7607843)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/GameOverScreen" unique_id=1745729391]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="Label" type="Label" parent="UI/GameOverScreen/VBoxContainer" unique_id=1616447612]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "GAME OVER!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FinalScoreLabel" type="Label" parent="UI/GameOverScreen/VBoxContainer" unique_id=445046870]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Final Score: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI/GameOverScreen/VBoxContainer" unique_id=496496136]
+layout_mode = 2
+text = "PLAY AGAIN"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UI" unique_id=1616658767]
+
+[node name="StatusLabel" type="Label" parent="UI/CanvasLayer" unique_id=1376126147]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
